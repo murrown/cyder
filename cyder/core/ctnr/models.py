@@ -10,6 +10,7 @@ from cyder.cydns.domain.models import Domain
 from cyder.cydhcp.constants import DYNAMIC
 from cyder.cydhcp.range.models import Range
 from cyder.cydhcp.workgroup.models import Workgroup
+from cyder.base.eav.models import Attribute
 from cyder.core.validation import validate_ctnr_name
 
 
@@ -24,6 +25,7 @@ class Ctnr(BaseModel, ObjectUrlMixin):
     domains = models.ManyToManyField(Domain, null=False, blank=True)
     ranges = models.ManyToManyField(Range, null=False, blank=True)
     workgroups = models.ManyToManyField(Workgroup, null=False, blank=True)
+    attributes = models.ManyToManyField(Attribute, null=False, blank=True)
     description = models.CharField(max_length=200, blank=True)
     email_contact = models.CharField(max_length=75, blank=True)
 
