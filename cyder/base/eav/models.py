@@ -30,6 +30,7 @@ class Attribute(models.Model):
         data['data'] = [
             ('Name', 'name', self),
         ]
+        data['url'] = ""
         return data
 
 
