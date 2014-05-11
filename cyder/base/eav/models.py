@@ -25,6 +25,13 @@ class Attribute(models.Model):
     def __unicode__(self):
         return self.name
 
+    def details(self):
+        data = {}
+        data['data'] = [
+            ('Name', 'name', self),
+        ]
+        return data
+
 
 class EAVBase(BaseModel, ObjectUrlMixin):
     """The entity-attribute-value base model
