@@ -27,7 +27,8 @@ class CtnrObjectForm(forms.Form):
             ('user', 'User'),
             ('domain', 'Domain'),
             ('range', 'Range'),
-            ('workgroup', 'Workgroup')))
+            ('workgroup', 'Workgroup'),
+            ('attribute', 'Attribute')))
 
     def __init__(self, *args, **kwargs):
         obj_perm = kwargs.pop('obj_perm', False)

@@ -30,6 +30,7 @@ def ctnr_detail(request, pk):
     ctnrRdomains = ctnr.domains.select_related().filter(is_reverse=True)
     ctnrRanges = ctnr.ranges.select_related()
     ctnrWorkgroups = ctnr.workgroups.select_related()
+    ctnrAttributes = ctnr.attributes.select_related()
 
     if request.user.get_profile().has_perm(
             request, ACTION_UPDATE, obj_class='CtnrObject', ctnr=ctnr):
@@ -51,6 +52,11 @@ def ctnr_detail(request, pk):
         workgroup_table = tablefy(workgroups, extra_cols=extra_cols,
                                   request=request)
 
+        extra_cols, attributes = create_obj_extra_cols(
+            ctnr, ctnrAttributes, 'attribute')
+        attribute_table = tablefy(attributes, extra_cols=extra_cols,
+                                  request=request)
+
         object_form = CtnrObjectForm(obj_perm=True)
 
     else:
@@ -58,6 +64,7 @@ def ctnr_detail(request, pk):
         rdomain_table = tablefy(ctnrRdomains, request=request)
         range_table = tablefy(ctnrRanges, request=request)
         workgroup_table = tablefy(ctnrWorkgroups, request=request)
+        attribute_table = None
         object_form = CtnrObjectForm()
         object_form.fields['obj_type'] = ChoiceField(widget=HiddenInput,
                                                      initial='user')
@@ -85,6 +92,7 @@ def ctnr_detail(request, pk):
         'rdomain_table': rdomain_table,
         'range_table': range_table,
         'workgroup_table': workgroup_table,
+        'attribute_table': attribute_table,
         'add_user_form': add_user_form,
         'object_select_form': object_form
     })
