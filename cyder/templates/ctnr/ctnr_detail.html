@@ -59,6 +59,11 @@
     {% if rdomain_table %}
       <h3>Reverse Domains</h3>
       {{ render_table(request, rdomain_table) }}
+      {% endif %}
+
+    {% if attribute_table %}
+      <h3>Attributes</h3>
+      {{ render_table(request, attribute_table) }}
     {% endif %}
   </div>
 
