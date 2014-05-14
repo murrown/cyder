@@ -12,6 +12,7 @@ from cyder.base.utils import classproperty
 
 class Attribute(models.Model):
     search_fields = ('name',)
+    display_fields = ('name',)
 
     class Meta:
         app_label = 'cyder'
