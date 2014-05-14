@@ -22,8 +22,12 @@ $(document).ready(function() {
         var url = $(this).attr('href');
         var lvl;
         var detailUrl = $(this).parent().parent().find('a:first').attr('href');
-        var pk = detailUrl.split('/').slice(-2)[0];
-        var obj_type = detailUrl.split('/').slice(2)[0];
+        var obj_type = $(this).parent().find('a:first').attr('col_obj_type')
+        if (obj_type == '' || typeof(obj_type) == "undefined")
+            obj_type = detailUrl.split('/').slice(2)[0];
+        var pk = $(this).parent().find('a:first').attr('col_pk')
+        if (pk == '' || typeof(pk) == "undefined")
+            pk = detailUrl.split('/').slice(-2)[0];
         var action = 'user_level';
         var acknowledge = true;
         if ($(this).attr('class') == 'minus') {

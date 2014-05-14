@@ -6,7 +6,7 @@ from cyder.base.helpers import prettify_obj_type, cached_property
 
 class Tablefier:
     def __init__(self, objects, request=None, extra_cols=None,
-                 users=False, custom=None, update=True):
+                 users=False, custom=None, update=True, obj_type=""):
         if users:
             from cyder.core.cyuser.models import UserProfile
             objects = UserProfile.objects.filter(user__in=objects)
@@ -14,6 +14,7 @@ class Tablefier:
         self.objects = objects
         self.request = request
         self.custom = custom
+        self.obj_type = obj_type
         if self.custom:
             self.extra_cols = None
             self.update = False
@@ -106,9 +107,11 @@ class Tablefier:
 
     @staticmethod
     def build_extra(d):
-        data_fields = ['value', 'url', 'img', 'class']
+        data_fields = ['value', 'url', 'img', 'class', 'pk']
         if not isinstance(d['value'], list):
             for k, v in d.items():
+                if k == 'pk':
+                    continue
                 d[k] = [v]
         col = dict(filter(lambda (k, v): k in data_fields, d.items()))
         return col
@@ -137,8 +140,8 @@ class Tablefier:
                          ('objType', obj._meta.db_table),
                          ('getUrl', reverse('get-update-form')),
                          ('prettyObjType', obj.pretty_type)],
-                         [('kwargs', '{"obj_type": "' + str(obj._meta.db_table)
-                              + '", "pk": "' + str(obj.id) + '"}')]],
+                        [('kwargs', '{"obj_type": "' + str(obj_type)
+                          + '", "pk": "' + str(obj.id) + '"}')]],
                'class': ['update', 'delete'],
                'img': ['/media/img/update.png', '/media/img/delete.png']}
         return col
@@ -183,6 +186,7 @@ class Tablefier:
         self.headers  # generate headers first to select related objects
         objs, data, urls = self.get_data()
         return {
+            'obj_type': self.obj_type,
             'headers': self.headers,
             'postback_urls': urls,
             'data': data,

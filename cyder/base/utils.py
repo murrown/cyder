@@ -99,7 +99,7 @@ def make_paginator(request, qs, num=20, obj_type=None):
 
 
 def tablefy(objects, users=False, extra_cols=None, info=True, request=None,
-            update=True):
+            update=True, obj_type=""):
     """Make list of table headers, rows of table data, list of urls
     that may be associated with table data, and postback urls.
 
@@ -112,7 +112,7 @@ def tablefy(objects, users=False, extra_cols=None, info=True, request=None,
                        },]
     """
     t = Tablefier(objects, request=request, users=users,
-                  extra_cols=extra_cols, update=update)
+                  extra_cols=extra_cols, update=update, obj_type=obj_type)
     return t.get_table()
 
 

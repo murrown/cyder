@@ -21,10 +21,12 @@
         {% for col in row %}
           <td class="{{object_table['headers'][i][0] | lower}}_column">
             {% for cell in col['value'] %}
-              {% if col['url'][loop.index0] %}
+            {% if col['url'][loop.index0] %}
                 <a{% if col['class'] %} class="{{ col['class'][loop.index0] }}"{% endif %}
                   {% if col['data'] %}{% if col['data'][loop.index0] %}{% for data in col['data'][loop.index0] %} data-{{ data[0] }}="{{ data[1] }}"{% endfor %}{% endif %}{% endif %}
-                  href="{{ col['url'][loop.index0] }}">
+                  href="{{ col['url'][loop.index0] }}"
+                  {% if object_table['obj_type'] %} col_obj_type={{ object_table['obj_type'] }} {% endif %}
+                  {% if col['pk'] %} col_pk={{ col['pk'] }} {% endif %}>
                   {% if col['img'] and col['img'][loop.index0] %}
                     <img alt="{{ cell }}" src="{{ col['img'][loop.index0] }}">
                   {% else %}

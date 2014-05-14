@@ -55,7 +55,7 @@ def ctnr_detail(request, pk):
         extra_cols, attributes = create_obj_extra_cols(
             ctnr, ctnrAttributes, 'attribute')
         attribute_table = tablefy(attributes, extra_cols=extra_cols,
-                                  request=request)
+                                  request=request, obj_type='attribute')
 
         object_form = CtnrObjectForm(obj_perm=True)
 
@@ -153,7 +153,7 @@ def create_user_extra_cols(ctnr, ctnrusers, actions=False):
                 'url': reverse('ctnr-update-user',
                                kwargs={'ctnr_pk': ctnr.id}),
                 'img': '/media/img/remove.png',
-                'class': 'remove user'
+                'class': 'remove user',
             })
 
     extra_cols[0]['data'] = level_data
@@ -179,7 +179,8 @@ def create_obj_extra_cols(ctnr, obj_set, obj_type):
             'url': reverse('ctnr-remove-object', kwargs={
                 'ctnr_pk': ctnr.id}),
             'img': '/media/img/remove.png',
-            'class': 'remove object'
+            'class': 'remove object',
+            'pk': str(obj.pk),
         })
         objs.append(obj)
     extra_cols[0]['data'] = remove_data
