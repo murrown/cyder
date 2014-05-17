@@ -1,5 +1,5 @@
 from django.conf.urls import include, patterns, url
-from django.views.generic.simple import direct_to_template
+from django.views.generic.base import TemplateView
 
 from cyder.cydhcp.views import (cydhcp_view, cydhcp_table_update,
                                 cydhcp_search_obj)
@@ -20,8 +20,7 @@ def cydhcp_urls(object_type):
 
 urlpatterns = patterns(
     '',
-    url(r'^$', direct_to_template, {'template': 'cydhcp/cydhcp_index.html'},
-        name='cydhcp-index'),
+    url(r'^$', TemplateView.as_view(template_name='cydhcp/cydhcp_index.html'), name='cydhcp-index'),
     url(r'^record/search/', cydhcp_search_obj, name='cydhcp-search-record'),
     url(r'^build/', include('cyder.cydhcp.build.urls')),
     url(r'^network/', include('cyder.cydhcp.network.urls')),
