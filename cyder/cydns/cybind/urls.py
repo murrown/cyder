@@ -1,4 +1,4 @@
-import django.conf.urls.defaults as defaults
+import django.conf.urls as defaults
 
 import cydns.cybind.views as views
 

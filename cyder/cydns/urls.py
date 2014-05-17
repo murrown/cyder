@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import include, patterns, url
+from django.conf.urls import include, patterns, url
 
 from cyder.cydns.views import *
 from cyder.cydns.constants import DNS_EAV_MODELS

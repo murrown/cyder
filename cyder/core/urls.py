@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import include, patterns, url
+from django.conf.urls import include, patterns, url
 
 from cyder.core.views import (core_index, core_view, core_table_update,
                               core_search_obj)

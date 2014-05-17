@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from cyder.cydhcp.urls import cydhcp_urls
 from cyder.cydhcp.views import cydhcp_create
 from cyder.cydhcp.interface.static_intr.views import static_intr_detail

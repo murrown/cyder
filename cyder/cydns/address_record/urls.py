@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from cyder.cydns.urls import cydns_urls
 from cyder.cydns.address_record.views import address_record_detail

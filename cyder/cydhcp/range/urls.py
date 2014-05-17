@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url, patterns
 
 from cyder.cydhcp.range.views import (redirect_to_range_from_ip, range_detail,
                                       search)

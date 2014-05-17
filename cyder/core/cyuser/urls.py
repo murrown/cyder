@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 from cyder.core.cyuser.views import (
     clone_perms, clone_perms_check, delete, set_default_ctnr)
 

@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
 from cyder.cydns.soa.views import delete_soa_attr, soa_detail
 from cyder.cydns.urls import cydns_urls

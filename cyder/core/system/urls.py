@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import url, patterns
+from django.conf.urls import url, patterns
 
 from cyder.core.system.views import system_create_view, system_detail
 from cyder.core.urls import core_urls

@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 
 from cyder.core.ctnr.views import (add_object, remove_object, change_ctnr,
                                    ctnr_detail, update_user)

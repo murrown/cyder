@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import include, patterns, url
+from django.conf.urls import include, patterns, url
 from django.views.generic.simple import direct_to_template
 
 from cyder.cydhcp.views import (cydhcp_view, cydhcp_table_update,

@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 from cyder.cydhcp.urls import cydhcp_urls
 from cyder.cydhcp.site.views import site_detail
