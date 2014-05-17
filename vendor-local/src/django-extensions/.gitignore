@@ -1,9 +1,0 @@
-*.pyc
-*.pyo
-*.egg-info
-MANIFEST
-build
-dist
-docs/_build
-docs/_static
-*.egg-info

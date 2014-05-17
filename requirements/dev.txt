@@ -3,7 +3,6 @@
 # package for developers (testing, docs, etc.), it goes in this file.
 
 django-debug-toolbar==0.9.4
-django-extensions
 
 -r prod.txt
 

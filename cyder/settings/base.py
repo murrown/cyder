@@ -361,7 +361,6 @@ INSTALLED_APPS = [
     'south',
     'django_cas',
     'djcelery',
-    'django_extensions',
     'django_nose',
     'jingo_minify',
     'rest_framework',
