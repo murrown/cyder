@@ -2,7 +2,6 @@
 import os
 import site
 import sys
-from django.core.management import execute_manager
 
 from lib.path_utils import path, import_mod_by_name, _dot_lookup, ROOT
 
