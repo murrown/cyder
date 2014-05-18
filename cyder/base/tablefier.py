@@ -58,18 +58,6 @@ class Tablefier:
                 self.objects.object_list = (
                     self.objects.object_list.prefetch_related('views'))
 
-        if hasattr(self.objects, 'object_list'):
-            self.objects.object_list = (self.objects.object_list
-                .select_related(*[f for _, f in headers if f]))
-
-        if self.custom:
-            data = self.custom(self.first_obj)['data']
-        else:
-            data = self.first_obj.details()['data']
-
-        for title, sort_field, value in data:
-            headers.append([title, sort_field])
-
         if self.extra_cols:
             for col in self.extra_cols:
                 headers.append([col['header'], col['sort_field']])
@@ -77,8 +65,26 @@ class Tablefier:
         if self.can_update:
             headers.append(['Actions', None])
 
+        def optimize(hdrs):
+            if hasattr(self.objects, 'object_list'):
+                self.objects.object_list = (self.objects.object_list
+                    .select_related(*[f for _, f in hdrs if f]))
+
+        optimize(headers)
+
+        # TODO: find a way to check for add_info without calling the reverse
+        # url resolver on a specific object
         if self.add_info:
             headers.insert(0, ['Info', None])
+
+        # TODO: make details a class method so we can optimize this
+        if self.custom:
+            data = self.custom(self.first_obj)['data']
+        else:
+            data = self.first_obj.details()['data']
+
+        for title, sort_field, value in data:
+            headers.append([title, sort_field])
 
         return headers
 
