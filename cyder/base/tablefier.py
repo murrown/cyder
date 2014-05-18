@@ -47,12 +47,21 @@ class Tablefier:
         if self.custom:
             return False
 
-        views = hasattr(self.first_obj, 'views')
-        return views
+        return 'views' in self.klass._meta.get_all_field_names()
 
     @cached_property
     def headers(self):
         headers = []
+        if self.views:
+            headers.append(['Views', None])
+            if hasattr(self.objects, 'object_list'):
+                self.objects.object_list = (
+                    self.objects.object_list.prefetch_related('views'))
+
+        if hasattr(self.objects, 'object_list'):
+            self.objects.object_list = (self.objects.object_list
+                .select_related(*[f for _, f in headers if f]))
+
         if self.custom:
             data = self.custom(self.first_obj)['data']
         else:
@@ -65,18 +74,8 @@ class Tablefier:
             for col in self.extra_cols:
                 headers.append([col['header'], col['sort_field']])
 
-        if self.views:
-            headers.append(['Views', None])
-            if hasattr(self.objects, 'object_list'):
-                self.objects.object_list = (
-                    self.objects.object_list.prefetch_related('views'))
-
         if self.can_update:
             headers.append(['Actions', None])
-
-        if hasattr(self.objects, 'object_list'):
-            self.objects.object_list = (self.objects.object_list
-                .select_related(*[f for _, f in headers if f]))
 
         if self.add_info:
             headers.insert(0, ['Info', None])
