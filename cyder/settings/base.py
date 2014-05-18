@@ -393,6 +393,9 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 SESSION_COOKIE_NAME = 'cyder'
 SESSION_COOKIE_SECURE = False
 
+# NOTE: PickleSerializer considered risky, JSONSerializer support added in 1.5
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
+
 AUTH_PROFILE_MODULE = 'cyder.UserProfile'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
