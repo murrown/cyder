@@ -8,7 +8,6 @@ from cyder.management.commands.lib.utilities import ip2long
 from cyder.cydhcp.constants import ALLOW_ANY, STATIC, DYNAMIC
 from datetime import datetime
 from pytz import timezone
-from pytz.exceptions import AmbiguousTimeError
 import re
 
 regex = re.compile("(\w+)\s+(\d+)\s+(\d+):(\d+):(\d+)\s\w+ dhcpd: DHCPACK on "
@@ -43,15 +42,7 @@ def update_interface(interface, timetuple):
         year -= 1
     day, hour, minute, second = tuple(map(int, [day, hour, minute, second]))
     dt = datetime(year, month, day, hour, minute, second, 0)
-    '''
-    try:
-        dt = dt + tz.dst(dt)
-    except AmbiguousTimeError:
-        pass
-    dt = dt.replace(tzinfo=tz)
-    '''
     interface.__class__.objects.filter(pk=interface.pk).update(last_seen=dt)
-    #print interface, timetuple
     return
 
 
@@ -104,7 +95,7 @@ def read_and_update(filename=None):
         if not line or line[0] == '#':
             continue
         if "STOP" in line:
-            print "Update aborted because an update is already in progress."
+            log("Update aborted because an update is already in progress.")
             return
         oldname, seekaddr = line.split()
         seekaddr = int(seekaddr, 0x10)
