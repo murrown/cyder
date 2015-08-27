@@ -7,7 +7,6 @@ from cyder.models import StaticInterface, DynamicInterface, Range
 from cyder.management.commands.lib.utilities import ip2long
 from cyder.cydhcp.constants import ALLOW_ANY, STATIC, DYNAMIC
 from datetime import datetime
-from pytz import timezone
 import re
 
 regex = re.compile("(\w+)\s+(\d+)\s+(\d+):(\d+):(\d+)\s\w+ dhcpd: DHCPACK on "
@@ -16,7 +15,6 @@ regex = re.compile("(\w+)\s+(\d+)\s+(\d+):(\d+):(\d+)\s\w+ dhcpd: DHCPACK on "
 months = {"jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
           "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12}
 
-tz = timezone('US/Pacific')
 now = datetime.now()
 nowyear = now.year
 nowmonth = now.month

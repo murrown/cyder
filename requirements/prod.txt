@@ -7,7 +7,6 @@ ply
 simplejson
 South>=0.8.1
 Parsley
-pytz
 
 git+git://github.com/KTHse/django-cas2#egg=django-cas2
 
