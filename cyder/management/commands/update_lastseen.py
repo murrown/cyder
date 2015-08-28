@@ -7,6 +7,7 @@ from cyder.models import StaticInterface, DynamicInterface, Range
 from cyder.management.commands.lib.utilities import ip2long
 from cyder.cydhcp.constants import ALLOW_ANY, STATIC, DYNAMIC
 from datetime import datetime
+from os import lstat
 import re
 
 regex = re.compile("(\w+)\s+(\d+)\s+(\d+):(\d+):(\d+)\s\w+ dhcpd: DHCPACK on "
@@ -84,7 +85,7 @@ def parse_line(line):
 
 
 def read_and_update(filename=None):
-    oldname, seekaddr = None, 0
+    oldname, seekaddr, oldmodified = None, 0, None
     stopfile = open(settings.LASTSEEN_STOPFILE, "a+")
     stopfile.close()
     stopfile = open(settings.LASTSEEN_STOPFILE, "rw+")
@@ -95,21 +96,26 @@ def read_and_update(filename=None):
         if "STOP" in line:
             log("Update aborted because an update is already in progress.")
             return
-        oldname, seekaddr = line.split()
+        oldname, seekaddr, oldmodified = line.split()
         seekaddr = int(seekaddr, 0x10)
+        oldmodified = int(oldmodified)
     stopfile.close()
 
-    if oldname is None:
-        oldname = filename
-    if oldname is None:
+    if filename is None:
+        filename = oldname
+    if filename is None:
         raise ValueError("No log file specified.")
+
+    modified = int(lstat(filename).st_mtime)
+    if oldmodified is not None and modified != oldmodified:
+        seekaddr = 0
 
     stopfile = open(settings.LASTSEEN_STOPFILE, "w+")
     stopfile.write("STOP\n")
-    stopfile.write("%s %x\n" % (oldname, seekaddr))
+    stopfile.write("%s %x %s\n" % (filename, seekaddr, modified))
     stopfile.close()
 
-    f = open(oldname)
+    f = open(filename)
     f.seek(seekaddr)
     while True:
         line = f.readline()
@@ -120,15 +126,15 @@ def read_and_update(filename=None):
         seekaddr = f.tell()
     f.close()
 
-    if filename != oldname:
-        seekaddr = 0
-
     stopfile = open(settings.LASTSEEN_STOPFILE, "w+")
-    stopfile.write("%s %x\n" % (filename, seekaddr))
+    stopfile.write("%s %x %s\n" % (filename, seekaddr, modified))
     stopfile.close()
 
 
 class Command(BaseCommand):
     def handle(self, *args, **options):
-        filename = args[0]
+        if args:
+            filename = args[0]
+        else:
+            filename = None
         read_and_update(filename)
