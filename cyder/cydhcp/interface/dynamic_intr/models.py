@@ -61,7 +61,9 @@ class DynamicInterface(BaseModel, ObjectUrlMixin, ExpirableMixin):
             ('System', 'system', self.system),
             ('Mac', 'mac', self),
             ('Range', 'range__start_lower', self.range),
-            ('Workgroup', 'workgroup', self.workgroup)]
+            ('Workgroup', 'workgroup', self.workgroup),
+            ('Last Seen', 'last_seen', self.last_seen),
+            ]
         return data
 
     @staticmethod

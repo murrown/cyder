@@ -104,6 +104,7 @@ class StaticInterface(BaseAddressRecord, BasePTR, ExpirableMixin):
             ('IP', 'ip_lower', str(self.ip_str)),
             ('MAC', 'mac', self.mac),
             ('Workgroup', 'workgroup', self.workgroup),
+            ('Last Seen', 'last_seen', self.last_seen),
             ('DHCP', 'dhcp_enabled',
                 'True' if self.dhcp_enabled else 'False'),
             ('DNS', 'dns_enabled',
